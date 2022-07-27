@@ -1,0 +1,397 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Swagger Blog Api",
+        "description": "Blog REST API for Testing and Prototyping",
+        "version": "0.0.1",
+        "contact": {
+            "name": "Rashed Iqbal",
+            "url": "https://github.com/iqbal-rashed",
+            "email": "dev.rashediqbal@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4444/",
+            "description": "Development Server"
+        },
+        {
+            "url": "https://staging.amijanina.com/",
+            "description": "Staging server"
+        },
+        {
+            "url": "https://api.amijanina.com/",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/api/auth/signup": {
+            "post": {
+                "description": "Create new User",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "Input data not found"
+                    },
+                    "409": {
+                        "description": "User already exist!"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "description": "Login User",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login successfully"
+                    },
+                    "400": {
+                        "description": "Input data not found"
+                    },
+                    "403": {
+                        "description": "Invalid credentials!"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e0f00ca5295ef9c79063aa"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "description": "Get single User",
+                "tags": ["Users"],
+
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "401": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e0f00ca5295ef9c79063aa"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupInput"
+                            }
+                        }
+                    }
+                },
+                "description": "Update User",
+                "tags": ["Users"],
+
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e0f00ca5295ef9c79063aa"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "description": "Delete User",
+                "tags": ["Users"],
+
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+
+        "/api/blog/": {
+            "get": {
+                "description": "Get all Blog",
+                "tags": ["Blogs"],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "user_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "401": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBlog"
+                            }
+                        }
+                    }
+                },
+                "description": "Create new Blog",
+                "tags": ["Blogs"],
+
+                "responses": {
+                    "200": {
+                        "description": "Blog created successfully"
+                    },
+                    "400": {
+                        "description": "Required data not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+
+        "/api/blog/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e101e037c8919737717187"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "description": "Get single Blog",
+                "tags": ["Blogs"],
+
+                "responses": {
+                    "200": {
+                        "description": "Successful request"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "403": {
+                        "description": "Blog not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e1040450a9ef27772ba487"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBlog"
+                            }
+                        }
+                    }
+                },
+                "description": "Update Blog",
+                "tags": ["Blogs"],
+
+                "responses": {
+                    "200": {
+                        "description": "Blog updated successfully"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "62e11d77b156932d7d1500e4"
+                        },
+                        "in": "path",
+                        "name": "id",
+                        "required": true
+                    }
+                ],
+                "description": "Delete Blog",
+                "tags": ["Blogs"],
+
+                "responses": {
+                    "200": {
+                        "description": "Blog deleted successfully"
+                    },
+                    "400": {
+                        "description": "Id not found"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SignupInput": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Rashed Iqbal"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "dev.rashediqbal@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "12345678"
+                    }
+                }
+            },
+            "LoginInput": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "dev.rashediqbal@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "12345678"
+                    }
+                }
+            },
+            "CreateBlog": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "This is Blog title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "This is Blog description"
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "62e0f0e43ccd625b9730995c"
+                    }
+                }
+            },
+            "UpdateBlog": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "This is Blog title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "This is Blog description"
+                    }
+                }
+            }
+        }
+    }
+}
